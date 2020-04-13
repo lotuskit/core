@@ -1,0 +1,12 @@
+{
+    "port": 8080,
+    "redis_url": "redis://localhost:6379",
+    "webui": {
+        "operators": [
+            {"username": "admin", "password": "$2y$06$mxWZXHxMSXdIPHRxw0I11.EU/M0vtSwzPIz3IBFtAuSUplhY06xP2"}
+        ]
+    },
+    "modules": [
+
+    ]
+}

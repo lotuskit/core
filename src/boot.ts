@@ -5,7 +5,7 @@ import fs from "fs";
 import logger from "./lib/logger";
 import RedisClient from "./lib/redis";
 import ConfigDefault from "./lib/config-default";
-import ConfigValidator from "./lib/config-validator";
+import ConfigValidator from "./validators/config.validator";
 import LotuServer from "./lotuserver";
 
 
@@ -55,7 +55,7 @@ try {
 /**
  * Validate configuration schema
  */
-const configErrors = ConfigValidator.validate(config);
+const configErrors = new ConfigValidator().validate(config);
 if (configErrors) {
   logger.error(`Error in configuration: ${configErrors}`);
   process.exit(1);

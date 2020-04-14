@@ -1,4 +1,5 @@
 # LotusKit Chat
+![Image of Yaktocat](lotuskit.png)  
 A programmable turnkey chat server, flexible and open-source
 
 ## Install dev environment

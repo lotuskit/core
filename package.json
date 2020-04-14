@@ -1,11 +1,11 @@
 {
   "name": "lotuskit",
   "version": "1.0.0",
-  "description": "A turnkey chat server to integrate in your projects",
+  "description": "An open-source turnkey chat server to integrate in your projects",
   "main": "lotuskit.js",
   "scripts": {
     "start": "ts-node dist/lotuskit",
-    "webpack": "webpack --config webpack.config.js",
+    "webpack": "rm -rf dist && webpack --config webpack.config.js",
     "test": "cross-env NODE_ENV=test jest --testTimeout=10000 --runInBand"
   },
   "author": "Pierre Avinain",

@@ -1,5 +1,5 @@
-# LotusKit
-A turnkey chat server to integrate in your projects
+# LotusKit Chat
+An open-source turnkey chat server to integrate in your projects
 
 ## Install dev environment
 1. Install Node.js on your computer

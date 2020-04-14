@@ -1,0 +1,12 @@
+{
+    "name": "Hello World",
+    "description": "A simple module to append hello word after all messages",
+    "author": "Pierre Avinain",
+    "version": "1.0.0",
+    "leafs": [
+        {
+            "file": "leafs/message/helloworld.leaf.ts",
+            "scope": "message"
+        }
+    ]
+}

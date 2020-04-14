@@ -1,5 +1,5 @@
 import Redis from "redis";
-import { Leaf, HandshakeLeaf, MessageLeaf } from "./Leaf";
+import { Leaf } from "./Leaf";
 import { Session } from "./Session";
 import { Message } from "./Message";
 
@@ -8,9 +8,10 @@ import { Message } from "./Message";
  * and ask them for response
  */
 export class Striper {
-    public static strip(redis: Redis.RedisClient,
+    public static strip(config: any,
+                        redis: Redis.RedisClient,
                         session_or_message: Session | Message,
-                        leafClasses: { new(redis: Redis.RedisClient): Leaf }[]): Promise<void> {
+                        leafClasses: { new(config: any, redis: Redis.RedisClient): Leaf }[]): Promise<void> {
 
         return new Promise((resolve, reject) => {
 
@@ -22,7 +23,7 @@ export class Striper {
 
             // Fetch & instanciate first leaf
             const leafClass = leafClasses[0];
-            const leaf = new leafClass(redis);
+            const leaf = new leafClass(config, redis);
 
             // Remove instanciated leafClass
             const reduced_leafClasses = [...leafClasses];
@@ -37,7 +38,7 @@ export class Striper {
                 
                 // Else, create new stripe and do it again
                 else {
-                    Striper.strip(redis, session_or_message, reduced_leafClasses)
+                    Striper.strip(config, redis, session_or_message, reduced_leafClasses)
                     .then(
                         () => resolve()
                     ).catch(

@@ -45,7 +45,7 @@ export class Socket {
         /**
          * Process payload through leafs
          */
-        Striper.strip(this.redis, session, leafClasses)
+        Striper.strip(this.config, this.redis, session, leafClasses)
         .then(
             // If handshake approved...
             () => {
@@ -137,7 +137,7 @@ export class Socket {
                 /**
                  * Process payload through leafs
                  */
-                Striper.strip(this.redis, message, leafClasses)
+                Striper.strip(this.config, this.redis, message, leafClasses)
                 .then(
                     // If message approved...
                     () => {

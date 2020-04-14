@@ -1,7 +1,7 @@
 {
   "name": "lotuskit",
   "version": "1.0.0",
-  "description": "An open-source turnkey chat server to integrate in your projects",
+  "description": "A programmable turnkey chat server, flexible and open-source",
   "main": "lotuskit.js",
   "scripts": {
     "start": "ts-node dist/lotuskit",

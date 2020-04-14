@@ -8,7 +8,7 @@ export class AuthLeaf extends AbstractHandshakeLeaf {
 
         // Add general channel
         session.addChannel('general');
-        
+
         next();
     }
 

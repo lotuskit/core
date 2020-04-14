@@ -25,7 +25,8 @@ export interface MessageLeaf {
  * Abstract Classes
  */
 abstract class AbstractLeaf implements Leaf {
-    constructor(private redis: Redis.RedisClient) {}
+    constructor(protected config: any,
+                protected redis: Redis.RedisClient) {}
 
     /**
      * Handle incoming demand

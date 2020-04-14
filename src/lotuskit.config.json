@@ -5,7 +5,7 @@
     "redis_url": "redis://localhost:6379",
     "webui": {
         "operators": [
-            {"username": "admin", "password": "$2b$06$zDnYByFXwxL/2gDhSKY9bO07jHJn6ynTWQ3UgUTGInlsLduXZO3Yy"}
+            {"username": "admin", "password": "$2b$06$TCS7l7zljrGfAxkE6vz40uxCkctwflfzYO6adM457z/R2iZVPJmFi"}
         ]
     },
     "modules": [

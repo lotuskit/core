@@ -11,6 +11,7 @@ function isAuthenticated(req: Request, res: Response, next: NextFunction) {
 }
 
 routes.get("/", isAuthenticated, (req: Request, res: Response) => {
+    res.locals.user = req.user;
     res.render('pages/dashboard');
 });
 

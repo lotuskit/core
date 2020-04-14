@@ -44,7 +44,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-single-02"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Username" type="text" name="username" autofocus>
+                    <input class="form-control" placeholder="Username" type="text" name="username" autofocus value="admin">
                   </div>
                   <% if (locals.messages && messages.errors) { %>
                     <% Object.keys(messages.errors).filter(function(key) { return ['username', 'invalidEmailOrPassword', 'internalServerError'].includes(key); }).map(function(key) { %>
@@ -59,7 +59,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Password" type="password" name="password">
+                    <input class="form-control" placeholder="Password" type="password" name="password" value="lotus">
                   </div>
                   <% if (locals.messages && messages.errors && messages.errors.password) { %>
                     <strong class="invalid-feedback" style="display: block">

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <title>LotusKit Chat</title>
+    </head>
+    <body>
+        <h1>LotusKit Chat</h1>
+        <p>A programmable turnkey chat server, flexible and open-source</p>
+
+        <h2>Modules</h2>
+        <div id="modules">
+
+        </div>
+        
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <script>
+            $(function() {
+                $.get( "https://api.github.com/repos/pierreavinain/lotuskit/contents/modules?ref=testmodules", function( modules ) {
+                    for (const module of modules) {
+                        // Fetch module versions
+                        $.get( "https://api.github.com/repos/pierreavinain/lotuskit/contents/modules/"+module.name+"?ref=testmodules", function( versions ) {
+                            for (const version of versions) {
+                                // Fetch module data
+                                $.get( "https://raw.githubusercontent.com/pierreavinain/lotuskit/testmodules/modules/"+module.name+"/"+version.name+"/lotus.json", function( raw ) {
+                                    const data = JSON.parse(raw);
+                                    $('#modules').append(`<div><strong>${data.name}</strong> v${data.version}, by ${data.author}<br/>${data.description}<br/><button>Install module</button></div><hr/>`);
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

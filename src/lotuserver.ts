@@ -2,8 +2,8 @@ import Redis from "redis";
 import helmet from "helmet";
 import express from "express";
 import logger from "./lib/logger";
-import webui_routes from "./webui/routes";
 import { Socket } from "./socket";
+import { WebuiServer } from "./webui/server";
 
 /**
  * Start LotusKit server with Express
@@ -22,11 +22,11 @@ export class LotuServer {
             const app = express();
 
             app.use(express.static("src/public"));
-            app.set("views", "src/webui/views");
-            app.set("view engine", "ejs");
             app.use(helmet());
-            app.use("/dashboard", webui_routes);
             app.get('/', (req, res) => res.send('Ready'));
+
+            // Bind webui to server
+            const webui = new WebuiServer(config, app);
 
             /**
              * Express Server & Socket.IO Activation

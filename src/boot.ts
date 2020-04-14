@@ -4,9 +4,10 @@
 import fs from "fs";
 import logger from "./lib/logger";
 import RedisClient from "./lib/redis";
-import ConfigDefault from "./lib/config-default";
-import ConfigValidator from "./validators/config.validator";
-import LotuServer from "./lotuserver";
+import { ConfigDefault } from "./lib/config-default";
+import { ConfigValidator } from "./validators/config.validator";
+import { LotuServer } from "./lotuserver";
+import { Motd } from "./lib/motd";
 
 
 /**
@@ -27,7 +28,11 @@ interface WebpackHotModule {
 }
 declare const module: WebpackHotModule;
 
-logger.info("Welcome! We're opening lotus, please be patient...");
+
+/**
+ * Display welcome MotD
+ */
+Motd.render();
 
 
 /**

@@ -5,13 +5,13 @@ export class ChannelLeaf extends AbstractMessageLeaf {
     
     public handle(message: Message, next: LeafNext, reject: LeafReject) {
         // Check channel
-        if (message.channel && message.sender.channels.includes(message.channel)) {
+        if (message.original_channel && message.sender.channels.includes(message.original_channel)) {
             // OK
             next();
             return;
         }
         
-        reject('Invalid channel');
+        reject({code: 'INVALID_CHANNEL'});
     }
 
 }

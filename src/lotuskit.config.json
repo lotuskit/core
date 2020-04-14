@@ -1,4 +1,6 @@
 {
+    "protocol": "http",
+    "host": "localhost",
     "port": 8080,
     "redis_url": "redis://localhost:6379",
     "webui": {

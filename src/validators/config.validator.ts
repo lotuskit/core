@@ -27,15 +27,17 @@ const webui = {
     }
 }
 
-export default class ConfigValidator extends Validator {
+export class ConfigValidator extends Validator {
 
     // Config schema
     protected schema = {
         type: 'object',
         required: [
-            'port', 'redis_url', 'webui', 'modules'
+            'protocol', 'host', 'port', 'redis_url', 'webui', 'modules'
         ],
         properties: {
+            protocol: { type: 'string', pattern: '^http[s]{0,1}$' },
+            host: { type: 'string' },
             port: { type: 'number', minimum: 1 },
             redis_url: { type: 'string' },
             webui,

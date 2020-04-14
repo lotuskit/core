@@ -1,4 +1,5 @@
 export class Session {
+    public username: string;
     public storage: any = {};
     public handshake_response: any = {};
 
@@ -7,10 +8,15 @@ export class Session {
     constructor(private _id: string,
                 private _handshake_payload: any,
                 import_data?: string) {
+
+        this.username = `${_id}`;
+
+        // Import data from Redis
         if (import_data) {
             const data = JSON.parse(import_data);
 
             this._id = data.id;
+            this.username = data.u;
             this.storage = data.s;
             this._channels = data.c;
         }
@@ -20,6 +26,7 @@ export class Session {
     export(): string {
         return JSON.stringify({
             id: this._id,
+            u: this.username,
             s: this.storage,
             c: this._channels
         });

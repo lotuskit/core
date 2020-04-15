@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "ajv": "^6.12.0",
+    "architect": "^0.1.13",
     "bcrypt": "^4.0.1",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
@@ -28,6 +29,7 @@
     "socket.io": "^2.3.0"
   },
   "devDependencies": {
+    "@types/architect": "^0.1.0",
     "@types/bcrypt": "^3.0.0",
     "@types/bluebird": "^3.5.30",
     "@types/dotenv": "^8.2.0",

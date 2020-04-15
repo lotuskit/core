@@ -8,7 +8,8 @@
             {"username": "admin", "password": "$2b$06$TCS7l7zljrGfAxkE6vz40uxCkctwflfzYO6adM457z/R2iZVPJmFi"}
         ]
     },
-    "modules": [
-
-    ]
+    "plugins": {
+        "./plugins/helloworld": {},
+        "./plugins/hellotext": {"text": " | HelloWorld"}
+    }
 }

@@ -21842,3 +21842,13 @@ html:not([dir='rtl']) .noUi-horizontal .noUi-handle
 
     height: 3px;
 }
+
+.hoverable {
+    border-radius: 3px;
+    padding: 2px 5px;
+}
+
+.hoverable:hover {
+    background-color: rgb(224, 224, 224);
+    
+}

@@ -1,0 +1,14 @@
+{
+    "name": "helloworld",
+    "version": "0.2.9",
+    "main": "index.js",
+    "plugin": {
+        "consumes": [
+          "hellotext"
+        ],
+        "provides": [
+          "helloworldtext"
+        ],
+        "mount": ["helloworldtext"]
+    }
+}

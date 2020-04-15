@@ -38,7 +38,7 @@ Motd.render();
 /**
  * Try to load configuration
  */
-const config_filename = './src/lotuskit.config.json';
+const config_filename = './lotuskit.config.json';
 let config: any;
 try {
   const rawconfig = fs.readFileSync(config_filename);

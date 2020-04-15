@@ -1,35 +1,54 @@
 import Redis from "redis";
 import socketio from "socket.io";
 import logger from "./lib/logger";
-import { AuthLeaf } from "./leafs/handshake/auth.leaf";
 import { Striper } from "./models/Striper";
 import { Session } from "./models/Session";
 import { ConfigDefault } from "./lib/config-default";
 import { Message } from "./models/Message";
-import { ChannelLeaf } from "./leafs/message/channel.leaf";
 import { MessageValidator } from "./validators/message.validator";
+import { Metrics } from "./lib/metrics";
+import { HandshakeLeaf, MessageLeaf } from "./models/Leaf";
 
 /**
  * Start Socket.io server and register events
  */
 export class Socket {
     private io: socketio.Server;
+    private connexions_count: number;
 
     constructor(private config: any,
                 private redis: Redis.RedisClient,
-                private server: any) {
+                private server: any,
+                private leafs: {handshake: HandshakeLeaf[], message: MessageLeaf[]},
+                private metrics: Metrics) {
 
         try {
+            this.connexions_count = 0;
             this.io = socketio.listen(this.server);
 
             // On new socket incoming data...
             this.io.on('connection', (socket: socketio.Socket) => {
+                this.connexions_count++;
+
                 socket.on('handshake', (data: any) => this.onSocketHandshake(socket, data));
                 socket.on('message', (data: any) => this.onSocketMessage(socket, data));
+
+                socket.on('disconnect', () => {
+                    this.connexions_count--;
+                });
             });
         } catch (error) {
             logger.error(error);
             process.exit(1);
+        }
+    }
+
+    /**
+     * Return server info to be displayed on dashboard
+     */
+    stats() {
+        return {
+            connexions_count: this.connexions_count,
         }
     }
 
@@ -40,12 +59,10 @@ export class Socket {
         // Create session
         const session = new Session(socket.id, payload);
 
-        const leafClasses = [AuthLeaf];
-
         /**
          * Process payload through leafs
          */
-        Striper.strip(this.config, this.redis, session, leafClasses)
+        Striper.strip(this.config, this.redis, this.metrics, session, this.leafs.handshake)
         .then(
             // If handshake approved...
             () => {
@@ -97,6 +114,9 @@ export class Socket {
      * On new incoming socket message
      */
     onSocketMessage(socket: socketio.Socket, payload: any) {
+        // Increment messages count
+        this.metrics.increment('messages');
+
         // Validate message format
         const msgErrors = new MessageValidator().validate(payload);
         if (msgErrors) {
@@ -107,9 +127,14 @@ export class Socket {
             return;
         }
 
+        let timestamp = new Date().getTime();
+
         // Fetch data from Redis
         this.redis.get(`lotuskit:session:${socket.id}`,
             (error: any, session_data: string) => {
+                // Save redis fetch time
+                this.metrics.add('process:sessionFetch', new Date().getTime() - timestamp);
+
                 // If error...
                 if (error) {
                     logger.error(`[REDIS] Error while fetching session for socket "${socket.id}":`);
@@ -132,12 +157,10 @@ export class Socket {
                 // Instanciate message
                 const message = new Message(session, payload);
 
-                const leafClasses = [ChannelLeaf];
-
                 /**
                  * Process payload through leafs
                  */
-                Striper.strip(this.config, this.redis, message, leafClasses)
+                Striper.strip(this.config, this.redis, this.metrics, message, this.leafs.message)
                 .then(
                     // If message approved...
                     () => {

@@ -1,16 +1,94 @@
 <body>
   <!-- Sidenav -->
   <% include ../partials/sidebar %>
+
   <!-- Main content -->
   <div class="main-content">
     <!-- Top navbar -->
     <% include ../partials/navbar %>
-    <!-- Header -->
-    <% include ../partials/header %>
+
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+      <div class="container-fluid">
+        <div class="header-body">
+          <!-- Card stats -->
+          <div class="row">
+            <div class="col-xl-3 col-lg-6">
+              <div class="card card-stats mb-4 mb-xl-0">
+                <a href="/dashboard/messages" class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">Connexions</h5>
+                      <span class="h2 font-weight-bold mb-0"><%= locals.stats.connexions_count %></span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-dark text-white rounded-circle shadow">
+                        <i class="fas fa-users"></i>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-6">
+              <div class="card card-stats mb-4 mb-xl-0">
+                <a href="/dashboard/messages" class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">Messages</h5>
+                      <span class="h2 font-weight-bold mb-0"><%= locals.stats.messages_count %> <small>/min</small></span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                        <i class="fas fa-comments"></i>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-6">
+              <div class="card card-stats mb-4 mb-xl-0">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">Avg Process Time</h5>
+                      <span class="h2 font-weight-bold mb-0"><%= locals.stats.process_total_time %> <small>ms</small></span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                        <i class="fas fa-hourglass-half"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-6">
+              <div class="card card-stats mb-4 mb-xl-0">
+                <a href="/dashboard/leafs" class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">Active Leafs</h5>
+                      <span class="h2 font-weight-bold mb-0">?</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-green text-white rounded-circle shadow">
+                        <i class="fas fa-leaf"></i>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
     <!-- Page content -->
     <div class="container-fluid mt--7">
       <div class="row">
-        <div class="col-xl-8 mb-5 mb-xl-0">
+        <div class="col-xl-7 mb-5 mb-xl-0">
           <div class="card bg-gradient-default shadow">
             <div class="card-header bg-transparent">
               <div class="row align-items-center">
@@ -45,7 +123,7 @@
             </div>
           </div>
         </div>
-        <div class="col-xl-4">
+        <div class="col-xl-5">
           <div class="card shadow">
             <div class="card-header bg-transparent">
               <div class="row align-items-center">
@@ -56,10 +134,22 @@
               </div>
             </div>
             <div class="card-body">
-              <!-- Chart -->
-              <div class="chart">
-                <canvas id="chart-orders" class="chart-canvas"></canvas>
+              <!-- Session fetch time Redis -->
+              <div class="hoverable">
+                <i class="fas fa-layer-group mr-2"></i> Session fetch time (Redis) 
+                <span class="float-right"><%= locals.stats.process_sessionFetch %> <small>ms</small></span>
               </div>
+
+              <!-- Leafs -->
+              <% Object.keys(locals.stats.leafs).forEach((leaf_name) => { %>
+                <div class="hoverable mt-1">
+                  <i class="fas fa-leaf mr-2"></i> <%= leaf_name %>
+                  <span class="float-right"><%= locals.stats.leafs[leaf_name] %> <small>ms</small></span>
+                </div>
+              <% }); %>
+            </div>
+            <div class="card-footer">
+              <strong>Total Process Time <span class="float-right"><%= locals.stats.process_total_time %> <small>ms</small></span></strong>
             </div>
           </div>
         </div>

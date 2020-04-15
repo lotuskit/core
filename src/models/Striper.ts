@@ -1,7 +1,8 @@
 import Redis from "redis";
-import { Leaf } from "./Leaf";
 import { Session } from "./Session";
 import { Message } from "./Message";
+import { Metrics } from "../lib/metrics";
+import { HandshakeLeaf, MessageLeaf } from "./Leaf";
 
 /**
  * The Striper go through all Leafs,
@@ -10,35 +11,41 @@ import { Message } from "./Message";
 export class Striper {
     public static strip(config: any,
                         redis: Redis.RedisClient,
+                        metrics: Metrics,
                         session_or_message: Session | Message,
-                        leafClasses: { new(config: any, redis: Redis.RedisClient): Leaf }[]): Promise<void> {
+                        leafs: (HandshakeLeaf | MessageLeaf)[]): Promise<void> {
 
         return new Promise((resolve, reject) => {
-
             // If no leafs, return payload
-            if (leafClasses.length === 0) {
+            if (leafs.length === 0) {
                 resolve();
                 return;
             }
 
-            // Fetch & instanciate first leaf
-            const leafClass = leafClasses[0];
-            const leaf = new leafClass(config, redis);
+            // Fetch first leaf
+            const leaf: (HandshakeLeaf | MessageLeaf) = leafs[0];
 
             // Remove instanciated leafClass
-            const reduced_leafClasses = [...leafClasses];
-            reduced_leafClasses.shift();
+            const reduced_leafs = [...leafs];
+            reduced_leafs.shift();
+
+            const started_at = new Date().getTime();
+
+            // Determine scope
+            const scope = (session_or_message.constructor.name === 'Session' ? 'H' : 'M');
 
             // Create next callback
-            const next = () => {
+            const leafNext = () => {
+                metrics.add(`leaf:[${scope}] ${leaf.constructor.name}`, new Date().getTime() - started_at);
+
                 // If it was the lad leaf, resolve with payload
-                if (reduced_leafClasses.length === 0) {
+                if (reduced_leafs.length === 0) {
                     resolve();
                 }
                 
                 // Else, create new stripe and do it again
                 else {
-                    Striper.strip(config, redis, session_or_message, reduced_leafClasses)
+                    Striper.strip(config, redis, metrics, session_or_message, reduced_leafs)
                     .then(
                         () => resolve()
                     ).catch(
@@ -47,8 +54,19 @@ export class Striper {
                 }
             }
 
+            // Create reject callback
+            const leafReject = (reason: any) => {
+                metrics.add(`leaf:[${scope}] ${leaf.constructor.name}`, new Date().getTime() - started_at);
+                reject(reason);
+            }
+
             // Handle data
-            leaf.handle(session_or_message, next, reject);
+            const leafEnv = { config, redis };
+            if (session_or_message.constructor.name === 'Session') {
+                (<HandshakeLeaf> leaf)(leafEnv, <Session> session_or_message, leafNext, leafReject);
+            } else {
+                (<MessageLeaf> leaf)(leafEnv, <Message> session_or_message, leafNext, leafReject);
+            }
         });
     }
 }

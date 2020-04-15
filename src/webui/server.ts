@@ -5,9 +5,13 @@ import bodyParser from "body-parser";
 import webui_routes from "./routes";
 import expressLayouts from "express-ejs-layouts";
 import { WebuiAuth } from "./auth";
+import { LotuServer } from "../lotuserver";
 
 export class WebuiServer {
-    constructor(private config: any, private app: express.Application) {
+    constructor(private config: any,
+                private app: express.Application,
+                private lotuserver: LotuServer) {
+
         // Body parser
         app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -27,6 +31,7 @@ export class WebuiServer {
         new WebuiAuth(config, app);
 
         // Routes
-        app.use("/dashboard", webui_routes);
+        app.use("/dashboard", webui_routes(this.lotuserver));
+
     }
 }

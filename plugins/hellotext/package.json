@@ -1,0 +1,16 @@
+{
+    "name": "hellotext",
+    "version": "0.2.9",
+    "main": "index.js",
+    "plugin": {
+        "consumes": [],
+        "provides": [
+          "hellotext"
+        ],
+        "mount": [],
+        "configSchema": {
+          "type": "object",
+          "required": ["text"]
+        }
+    }
+}

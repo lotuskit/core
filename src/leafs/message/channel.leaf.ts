@@ -1,17 +1,15 @@
 import { Message } from "../../models/Message";
-import { AbstractMessageLeaf, LeafNext, LeafReject } from "../../models/Leaf";
+import { LeafEnv, LeafNext, LeafReject, MessageLeaf } from "../../models/Leaf";
 
-export class ChannelLeaf extends AbstractMessageLeaf {
-    
-    public handle(message: Message, next: LeafNext, reject: LeafReject) {
-        // Check channel
-        if (message.original_channel && message.sender.channels.includes(message.original_channel)) {
-            // OK
-            next();
-            return;
-        }
-        
-        reject({code: 'INVALID_CHANNEL'});
+const leaf: MessageLeaf = (env: LeafEnv, message: Message, next: LeafNext, reject: LeafReject): void => {
+    // Check channel
+    if (message.original_channel && message.sender.channels.includes(message.original_channel)) {
+        // OK
+        next();
+        return;
     }
-
+    
+    reject({code: 'INVALID_CHANNEL'});
 }
+
+export default leaf;

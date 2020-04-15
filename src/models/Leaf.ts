@@ -15,19 +15,27 @@ export type LeafReject = (error: any) => void
 // export interface Leaf {
 //     handle(session_or_message: Session | Message, next: LeafNext, reject?: LeafReject): void;
 // }
-export type HandshakeLeaf = (
-    env: LeafEnv,
-    session: Session,
-    next: LeafNext,
-    reject: LeafReject
-) => void;
+export type HandshakeLeaf = {
+    name: string;
+    scope: 'handshake',
+    engine: (
+        env: LeafEnv,
+        session: Session,
+        next: LeafNext,
+        reject: LeafReject
+    ) => void
+};
 
-export type MessageLeaf = (
-    env: LeafEnv,
-    message: Message,
-    next: LeafNext,
-    reject: LeafReject
-) => void;
+export type MessageLeaf = {
+    name: string;
+    scope: 'message',
+    engine: (
+        env: LeafEnv,
+        message: Message,
+        next: LeafNext,
+        reject: LeafReject
+    ) => void
+};
 
 /**
  * Abstract Classes

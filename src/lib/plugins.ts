@@ -34,7 +34,7 @@ export class Plugins {
                     // Validate config if needed
                     if (plugin.configSchema) {
                         const ajv = new Ajv({ allErrors: true });
-                        if (!ajv.validate(plugin.configSchema, plugin.config)) {
+                        if (!ajv.validate(plugin.configSchema, plugin.config.plugin)) {
                             logger.error(`Invalid plugin configuration:`);
                             logger.error(`  Plugin: ${plugin.packagePath}`);
                             logger.error(`  Error: ${ajv.errorsText()}`);

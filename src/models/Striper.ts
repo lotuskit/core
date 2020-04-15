@@ -56,16 +56,16 @@ export class Striper {
 
             // Create reject callback
             const leafReject = (reason: any) => {
-                metrics.add(`leaf:[${scope}] ${leaf.constructor.name}`, new Date().getTime() - started_at);
+                metrics.add(`leaf:[${scope}] ${leaf.name}`, new Date().getTime() - started_at);
                 reject(reason);
             }
 
             // Handle data
             const leafEnv = { config, redis };
             if (session_or_message.constructor.name === 'Session') {
-                (<HandshakeLeaf> leaf)(leafEnv, <Session> session_or_message, leafNext, leafReject);
+                (<HandshakeLeaf> leaf).engine(leafEnv, <Session> session_or_message, leafNext, leafReject);
             } else {
-                (<MessageLeaf> leaf)(leafEnv, <Message> session_or_message, leafNext, leafReject);
+                (<MessageLeaf> leaf).engine(leafEnv, <Message> session_or_message, leafNext, leafReject);
             }
         });
     }

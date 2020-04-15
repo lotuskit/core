@@ -53,6 +53,7 @@ export class LotuServer {
             /**
              * Load plugins
              */
+            logger.info("Loading plugins...");
             this.plugins = new Plugins(config);
             this.plugins.load().then(
                 () => {

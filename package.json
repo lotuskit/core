@@ -4,9 +4,11 @@
   "description": "A programmable turnkey chat server, flexible and open-source",
   "main": "lotuskit.js",
   "scripts": {
-    "start": "ts-node dist/lotuskit",
-    "webpack": "rm -rf dist && webpack --config webpack.config.js",
-    "test": "cross-env NODE_ENV=test jest --testTimeout=10000 --runInBand"
+    "start": "ts-node build/lotuskit",
+    "start-prod": "node lotuskit.js",
+    "webpack": "rm -rf build && webpack --config webpack.config.js",
+    "test": "cross-env NODE_ENV=test jest --testTimeout=10000 --runInBand",
+    "compile": "./compile.sh"
   },
   "author": "Pierre Avinain",
   "license": "ISC",

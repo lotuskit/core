@@ -23,7 +23,7 @@ export class Plugins {
             }
 
             // Load configuration
-            architectLib.loadConfig(process.cwd() + '/architect-config.js', (err, architectConfig) => {
+            architectLib.loadConfig(process.cwd() + '/plugin-resolver.js', (err, architectConfig) => {
                 if (err) {
                     logger.error('Unable to load plugins:', err);
                     process.exit(1);

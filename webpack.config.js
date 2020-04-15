@@ -26,9 +26,7 @@ module.exports = {
   },
   plugins: [new webpack.HotModuleReplacementPlugin()],
   output: {
-    path: path.join(__dirname, "dist"),
-    filename: "lotuskit.js",
-    // hotUpdateChunkFilename: 'hot/hot-update.js',
-    // hotUpdateMainFilename: 'hot/hot-update.json'
+    path: path.join(__dirname, "build"),
+    filename: "lotuskit.js"
   }
 };

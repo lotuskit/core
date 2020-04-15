@@ -1,0 +1,12 @@
+{
+    "protocol": "http",
+    "host": "localhost",
+    "port": 8080,
+    "redis_url": "redis://localhost:6379",
+    "webui": {
+        "operators": [
+            {"username": "admin", "password": "$2b$06$TCS7l7zljrGfAxkE6vz40uxCkctwflfzYO6adM457z/R2iZVPJmFi"}
+        ]
+    },
+    "plugins": {}
+}

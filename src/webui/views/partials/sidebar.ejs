@@ -9,7 +9,7 @@
     <a class="navbar-brand pt-3" href="/dashboard">
       <img src="/static/webui/img/lotuskit/lotuskit.png" class="navbar-brand-img mb-2" alt="lotuskit logo">
       <h1 class="mb-0">LotusKit</h1>
-      <small class="text-muted">1.0.0</small>
+      <small class="text-muted"><%= locals.version %></small>
     </a>
 
     <!-- Collapse -->
@@ -18,8 +18,8 @@
       <div class="navbar-collapse-header d-md-none">
         <div class="row">
           <div class="col-6 collapse-brand">
-            <a href="./index">
-              <img src="img/brand/blue.png">
+            <a href="/dashboard">
+              <img src="/static/webui/img/lotuskit/lotuskit.png">
             </a>
           </div>
           <div class="col-6 collapse-close">
@@ -54,13 +54,8 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/dashboard/settings">
-            <i class="fas fa-wrench"></i> Settings
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/dashboard/modules">
-            <i class="fas fa-puzzle-piece"></i> Modules
+          <a class="nav-link" href="/dashboard/Plugins">
+            <i class="fas fa-puzzle-piece"></i> Plugins
           </a>
         </li>
         <li class="nav-item">

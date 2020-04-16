@@ -3,6 +3,9 @@
   "version": "0.2.9",
   "main": "index.js",
   "plugin": {
+    "name": "hellotext",
+    "version": "0.2.9",
+    "author": "Pierre",
     "consumes": [],
     "provides": [
       "hellotext/text"

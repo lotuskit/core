@@ -4,6 +4,8 @@
   "main": "index.js",
   "plugin": {
     "name": "helloworld",
+    "version": "0.2.9",
+    "author": "Pierre",
     "consumes": [
       "hellotext/text"
     ],

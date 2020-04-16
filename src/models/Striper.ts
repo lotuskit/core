@@ -36,7 +36,7 @@ export class Striper {
 
             // Create next callback
             const leafNext = () => {
-                metrics.add(`leaf:[${scope}] ${leaf.constructor.name}`, new Date().getTime() - started_at);
+                metrics.add(`leaf:[${scope}] ${leaf.name}`, new Date().getTime() - started_at);
 
                 // If it was the lad leaf, resolve with payload
                 if (reduced_leafs.length === 0) {

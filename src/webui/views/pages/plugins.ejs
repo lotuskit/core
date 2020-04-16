@@ -1,0 +1,79 @@
+<body>
+    <!-- Sidenav -->
+    <% include ../partials/sidebar %>
+    
+    <!-- Main content -->
+    <div class="main-content">
+      <!-- Top navbar -->
+      <% include ../partials/navbar %>
+  
+      <div class="header bg-gradient-primary pb-8 pt-5 pt-md-6"></div>
+  
+      <!-- Page content -->
+      <div class="container-fluid mt--6">
+        <!-- Table -->
+        <div class="row">
+          <div class="col">
+            <div class="card shadow">
+              <div class="card-header border-0">
+                <div class="row align-items-center">
+                    <div class="col-8">
+                        <h3 class="mb-0">
+                            <i class="fas fa-user-astronaut mr-2"></i>
+                            Installed Plugins
+                        </h3>
+                        <p class="mt-2 mb-0">
+                          Plugins are used to extend the server features, 
+                          by providing new <a href="/dashboard/leafs">leafs</a>.
+                        </p>
+                    </div>
+                    <div class="col-4 text-right">
+                        <button type="button" data-toggle="modal" data-target="#modal-form" class="btn btn-primary">
+                            <i class="fas fa-search mr-1"></i>
+                            Search/Add plugins
+                        </button>
+                    </div>
+                  </div>
+              </div>
+              <div class="table-responsive">
+                <table class="table align-items-center table-flush">
+                  <thead class="thead-light">
+                    <tr>
+                      <th scope="col">Plugin Name</th>
+                      <th scope="col">Version</th>
+                      <th scope="col">Author</th>
+                      <th scope="col">Loaded Leafs</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% locals.plugins.forEach((plugin) => { %>
+                    <tr>
+                      <th scope="row">
+                        <span class="mb-0 text-sm">
+                          <%= plugin.name %>
+                        </span>
+                      </th>
+                      <td>
+                        <%= plugin.version %>
+                      </td>
+                      <td>
+                        <%= plugin.author %>
+                      </td>
+                      <td>
+                        <i class="fas fa-leaf mr-1"></i> <%= plugin.leafs_count %>
+                      </td>
+                    </tr>
+                    <% }); %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Include scripts -->
+    <% include ../partials/scripts %>
+  </body>
+  

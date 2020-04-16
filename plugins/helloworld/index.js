@@ -43,6 +43,7 @@ module.exports = LotusKitPlugin(
         return {
             helloworldtext: {
                 name: 'HelloWorld',
+                type: 'leaf',
                 scope: 'message',
                 engine: (env, message, next, reject) => {
                     message.content += imports.hellotext.text;

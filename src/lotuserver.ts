@@ -1,3 +1,4 @@
+import fs from "fs";
 import Redis from "redis";
 import helmet from "helmet";
 import express from "express";
@@ -8,6 +9,7 @@ import { Metrics } from "./lib/metrics";
 import { Plugins } from "./lib/plugins";
 import AuthLeaf from "./leafs/handshake/auth.leaf";
 import ChannelLeaf from "./leafs/message/channel.leaf";
+import MeLeaf from "./leafs/message/me.leaf";
 import { HandshakeLeaf, MessageLeaf } from "./models/Leaf";
 
 /**
@@ -31,7 +33,7 @@ export class LotuServer {
              */
             this.leafs = {
                 handshake: [AuthLeaf],
-                message: [ChannelLeaf]
+                message: [ChannelLeaf, MeLeaf]
             }
 
             /**
@@ -81,6 +83,28 @@ export class LotuServer {
             logger.error(error);
             process.exit(1);
         }
+    }
+
+    getConfig(): any {
+        return this.config;
+    }
+
+    saveConfig(config: any): void {
+        fs.writeFile('./lotuskit.config.json', JSON.stringify(config, null, 4), (err) => {
+            if (err) {
+                logger.error(`Unable to save updated configuration:`, err);
+            } else {
+                logger.info(`Updated configuration!`);
+            }
+        });
+    }
+
+    getLeafs(): {handshake: HandshakeLeaf[]; message: MessageLeaf[]} {
+        return this.leafs;
+    }
+
+    getPlugins(): any {
+        return this.plugins.plugins;
     }
 
     /**

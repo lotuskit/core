@@ -4,7 +4,15 @@ import architectLib, { Architect } from "architect";
 import { HandshakeLeaf, MessageLeaf } from "../models/Leaf";
 import { isArray } from "util";
 
+export type Plugin = {
+    name: string;
+    version: string;
+    author: string;
+    leafs_count: number;
+}
+
 export class Plugins {
+    private _plugins: Plugin[] = [];
     private _leaf_names: string[] = [];
     private _leafs: MessageLeaf[] = [];
     
@@ -45,6 +53,14 @@ export class Plugins {
                     // Mountable leafs
                     if (!plugin.mount || !isArray(plugin.mount)) continue;
                     this._leaf_names = this._leaf_names.concat(plugin.mount);
+
+                    // Save plugin
+                    this._plugins.push({
+                        name: plugin.name,
+                        version: plugin.version,
+                        author: plugin.author,
+                        leafs_count: plugin.mount.length
+                    });
                 }
                 
                 // Create architect app from configuration
@@ -73,5 +89,12 @@ export class Plugins {
      */
     get leafs(): MessageLeaf[] {
         return this._leafs;
+    }
+
+    /**
+     * Get loaded plugins
+     */
+    get plugins(): Plugin[] {
+        return this._plugins;
     }
 }

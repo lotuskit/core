@@ -1,6 +1,24 @@
-# LotusKit Chat
-![Image of Yaktocat](lotuskit.png)  
-A programmable turnkey chat server, flexible and open-source
+<p align="center"><img src="lotuskit.png"></p>
+
+## About LotusKit
+**LotusKit is a programmable turnkey chat server, flexible and open-source, integrable into your apps, websites and games.** It's fast and easy to use, with all the features you need to run a successful community. It is designed to be:
+
+- **Fast and simple.** No clutter, no bloat, no complex dependencies. LotusKit is built with Node.js and socket.io so it’s quick and easy to deploy.
+
+- **Powerful and extensible.** Customize, extend, and integrate LotusKit to suit your community. LotusKit's architecture is amazingly flexible, with a powerful Extension API.
+
+![screenshot](screenshot.png)
+
+## Installation
+
+## Contributing
+Thank you for considering contributing to LotusKit! Please read the Contributing guide to learn how you can help.
+
+## Security Vulnerabilities
+If you discover a security vulnerability within LotusKit, please send an e-mail to piavndev@gmail.com. All security vulnerabilities will be promptly addressed.
+
+## License
+LotusKit is open-source software licensed under the MIT License.
 
 ## Install dev environment
 1. Install Node.js on your computer
@@ -31,3 +49,13 @@ A programmable turnkey chat server, flexible and open-source
 ## Documentation
 https://manifold.co/blog/building-a-chat-room-in-30-minutes-using-redis-socket-io-and-express-9e8e5a578675
 https://github.com/dwyl/hapi-socketio-redis-chat-example
+
+## Extensions ideas
+- Email notifications on mentions
+- Messages real-time translations
+- Commands (/me, /help, ...)
+- Online presence indicator
+- Typing indicator
+- Read receipts
+- Bots
+- Webhooks

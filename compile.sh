@@ -15,8 +15,12 @@ cp -R src/webui/views dist/webui/views
 # Copy plugin resolver (Architect config)
 cp plugin-resolver.js dist/plugin-resolver.js
 
-# Create empty logs dir
+# Create empty dirs
 mkdir dist/log
+mkdir dist/plugins
 
 # Copy default config
 cp lotuskit.config.default.json dist/lotuskit.config.json
+
+# Copy CLI
+cp cli.js dist/cli.js

@@ -12,20 +12,27 @@
   },
   "author": "Pierre Avinain",
   "license": "ISC",
+  "bin": {
+    "lotuskit": "cli.js"
+  },
   "dependencies": {
     "ajv": "^6.12.0",
     "architect": "^0.1.13",
     "bcrypt": "^4.0.1",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
+    "chalk": "^4.0.0",
+    "commander": "^5.0.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-ejs-layouts": "^2.5.0",
     "express-session": "^1.17.0",
+    "faker": "^4.1.0",
     "helmet": "^3.22.0",
     "log4js": "^6.1.2",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
+    "pkg-install": "^1.0.0",
     "redis": "^3.0.2",
     "request": "^2.88.2",
     "socket.io": "^2.3.0"

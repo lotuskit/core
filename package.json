@@ -1,5 +1,5 @@
 {
-  "name": "lotuskit",
+  "name": "@lotuskit/core",
   "version": "1.0.0",
   "description": "A programmable turnkey chat server, flexible and open-source",
   "main": "lotuskit.js",

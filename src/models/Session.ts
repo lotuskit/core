@@ -6,7 +6,7 @@ export class Session {
     private _channels: string[] = [];
 
     constructor(private _id: string,
-                private _handshake_payload: any,
+                private _payload: any,
                 import_data?: string) {
 
         this.username = `${_id}`;
@@ -33,7 +33,7 @@ export class Session {
     }
 
     get id(): string { return this._id; }
-    get handshake_payload(): any { return this._handshake_payload; }
+    get payload(): any { return this._payload; }
     get channels(): string[] { return this._channels; }
 
     addChannel(channel: string) {

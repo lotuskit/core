@@ -8,9 +8,10 @@ cp package-lock.json dist/package-lock.json
 cp build/lotuskit.js dist/lotuskit.js
 
 # Copy views & static resources
-cp -R src/public dist/public
-mkdir dist/webui
-cp -R src/webui/views dist/webui/views
+mkdir dist/src
+cp -R src/public dist/src/public
+mkdir dist/src/webui
+cp -R src/webui/views dist/src/webui/views
 
 # Copy plugin resolver (Architect config)
 cp plugin-resolver.js dist/plugin-resolver.js
@@ -21,6 +22,3 @@ mkdir dist/plugins
 
 # Copy default config
 cp lotuskit.config.default.json dist/lotuskit.config.json
-
-# Copy CLI
-cp cli.js dist/cli.js

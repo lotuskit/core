@@ -1,11 +1,11 @@
-<p align="center"><img src="lotuskit.png"></p>
+<p align="center"><img src="lotuskit.svg"></p>
 
 ## About LotusKit
-**LotusKit is a programmable turnkey chat server, flexible and open-source, integrable into your apps, websites and games.** It's fast and easy to use, with all the features you need to run a successful community. It is designed to be:
+**LotusKit is a programmable turnkey chat server, flexible and open-source, to use into your apps, websites and games.** It's fast and easy to use, with all the features you need to run a successful community. It is designed to be:
 
-- **Fast and simple.** No clutter, no bloat, no complex dependencies. LotusKit is built with Node.js and socket.io so it’s quick and easy to deploy.
+- **Fast and simple.** No clutter, no bloat, no complex dependencies. LotusKit is built with Node.js and Redis so it’s quick and easy to deploy.
 
-- **Powerful and extensible.** Customize, extend, and integrate LotusKit to suit your community. LotusKit's architecture is amazingly flexible, with a powerful Extension API.
+- **Powerful and extensible.** Customize, extend, and integrate LotusKit to suit your community. LotusKit's architecture is amazingly flexible, with a powerful Plugin API.
 
 ![screenshot](screenshot.png)
 
@@ -49,6 +49,11 @@ LotusKit is open-source software licensed under the MIT License.
 ## Documentation
 https://manifold.co/blog/building-a-chat-room-in-30-minutes-using-redis-socket-io-and-express-9e8e5a578675
 https://github.com/dwyl/hapi-socketio-redis-chat-example
+
+## Packages
+- @lotuskit/core: server core
+- @lotuskit/plugin: plugin api
+- @lotuskit/cli: CLI
 
 ## Extensions ideas
 - Email notifications on mentions

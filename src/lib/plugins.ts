@@ -14,9 +14,14 @@ export type Plugin = {
 export class Plugins {
     private _plugins: Plugin[] = [];
     private _leaf_names: string[] = [];
-    private _leafs: MessageLeaf[] = [];
+    private _leafs: {handshake: HandshakeLeaf[]; message: MessageLeaf[]};
     
-    constructor(private config: any) {}
+    constructor(private config: any) {
+        this._leafs = {
+            handshake: [],
+            message: []
+        }
+    }
 
     // Load plugins
     load(): Promise<void> {
@@ -72,11 +77,19 @@ export class Plugins {
 
                     // Load leafs
                     for (const leaf_name of this._leaf_names) {
-                        this._leafs.push(app.getService(leaf_name));
+                        const leaf = app.getService(leaf_name);
+                        if (leaf.scope === 'handshake') {
+                            this._leafs.handshake.push(leaf);
+                        } else if (leaf.scope === 'message') {
+                            this._leafs.message.push(leaf);
+                        } else {
+                            logger.error(`Unknown scope '${leaf.scope}' for leaf '${leaf_name}'`);
+                            process.exit(1);
+                        }
                     }
 
                     // Plugins are loaded and ready!
-                    logger.info(`${this._leafs.length} leaf(s) mounted from ${plugins_count} plugin(s):`);
+                    logger.info(`${this._leafs.handshake.length + this._leafs.message.length} leaf(s) mounted from ${plugins_count} plugin(s):`);
                     logger.info(`   ${this._leaf_names.join(', ')}`);
                     resolve();
                 });
@@ -87,7 +100,7 @@ export class Plugins {
     /**
      * Get loaded leafs
      */
-    get leafs(): MessageLeaf[] {
+    get leafs() {
         return this._leafs;
     }
 

@@ -62,8 +62,8 @@ export class LotuServer {
                     /**
                      * Append loaded leafs from plugins
                      */
-                    this.leafs.handshake = this.leafs.handshake.concat([]);
-                    this.leafs.message = this.leafs.message.concat(this.plugins.leafs);
+                    this.leafs.handshake = this.leafs.handshake.concat(this.plugins.leafs.handshake);
+                    this.leafs.message = this.leafs.message.concat(this.plugins.leafs.message);
                     
                     /**
                      * Express Server & Socket.IO Activation

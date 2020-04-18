@@ -56,8 +56,7 @@ https://github.com/dwyl/hapi-socketio-redis-chat-example
 - @lotuskit/cli: CLI
 
 ## TODO
-- Moderation
-- Security allowed client domains
+- Moderation in dashboard & in client
 - System messages, when:
     - User joined a channel
     - User leaves a channel

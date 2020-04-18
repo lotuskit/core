@@ -24,7 +24,7 @@ export class Socket {
 
         try {
             this.connexions_count = 0;
-            this.io = socketio.listen(this.server);
+            this.io = socketio.listen(this.server, {origins: this.config.allowed_origins});
 
             // On new socket incoming data...
             this.io.on('connection', (socket: socketio.Socket) => {
@@ -32,8 +32,8 @@ export class Socket {
 
                 socket.on(ConfigDefault.EVENTS.HANDSHAKE, (data: any) => this.onSocketHandshake(socket, data));
                 socket.on(ConfigDefault.EVENTS.MESSAGE, (data: any) => this.onSocketMessage(socket, data));
-                socket.on(ConfigDefault.EVENTS.HANDSHAKE, () => {
-                    socket.emit(ConfigDefault.EVENTS.HANDSHAKE, 'pong');
+                socket.on(ConfigDefault.EVENTS.PING, () => {
+                    socket.emit(ConfigDefault.EVENTS.PING, 'pong');
                 });
 
                 socket.on('disconnect', () => {

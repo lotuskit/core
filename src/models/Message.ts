@@ -1,5 +1,12 @@
 import { Session } from "./Session";
 
+export type MessageExport = {
+    t: number;
+    m: string;
+    u: string;
+    c: string[];
+}
+
 export class Message {
     public content: string;
     private _timestamp: number;
@@ -68,7 +75,7 @@ export class Message {
         this._broadcasted_channels = [];
     }
 
-    export(): any {
+    export(): MessageExport {
         return {
             t: this.timestamp,
             m: this.content,

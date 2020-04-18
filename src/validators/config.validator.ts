@@ -33,7 +33,7 @@ export class ConfigValidator extends Validator {
     protected schema = {
         type: 'object',
         required: [
-            'protocol', 'host', 'port', 'redis_url', 'webui', 'plugins', 'max_messages_length'
+            'protocol', 'host', 'port', 'redis_url', 'webui', 'plugins', 'max_messages_length', 'allowed_origins'
         ],
         properties: {
             protocol: { type: 'string', pattern: '^http[s]{0,1}$' },
@@ -42,7 +42,13 @@ export class ConfigValidator extends Validator {
             redis_url: { type: 'string' },
             webui,
             plugins: { type: 'object' },
-            max_messages_length: { type: 'number', minimum: 1, maximum: 5000 }
+            max_messages_length: { type: 'number', minimum: 1, maximum: 5000 },
+            allowed_origins: {
+                type: 'array',
+                items: {
+                    type: 'string'
+                }
+            }
         }
     }
 

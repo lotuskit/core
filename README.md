@@ -1,4 +1,4 @@
-<p align="center"><img src="lotuskit.svg" width=200></p>
+<p align="center"><img src="brand/logo-animated.svg" width=200></p>
 
 ## About LotusKit
 **LotusKit is a programmable turnkey chat server, flexible and open-source, to use into your apps, websites and games.** It's fast and easy to use, with all the features you need to run a successful community. It is designed to be:
@@ -7,7 +7,7 @@
 
 - **Powerful and extensible.** Customize, extend, and integrate LotusKit to suit your community. LotusKit's architecture is amazingly flexible, with a powerful Plugin API.
 
-![screenshot](screenshot.png)
+![schema](brand/schema-animated.svg)
 
 ## Installation
 

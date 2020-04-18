@@ -1,0 +1,1 @@
+export type ChannelRole = 'r' | 'w' | 'm';

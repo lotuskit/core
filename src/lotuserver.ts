@@ -9,7 +9,7 @@ import { Metrics } from "./lib/metrics";
 import { Plugins } from "./lib/plugins";
 import AuthLeaf from "./leafs/handshake/auth.leaf";
 import ChannelLeaf from "./leafs/message/channel.leaf";
-import MeLeaf from "./leafs/message/me.leaf";
+import CoreFilterLeaf from "./leafs/message/core-filter.leaf";
 import { HandshakeLeaf, MessageLeaf } from "./models/Leaf";
 
 /**
@@ -33,7 +33,7 @@ export class LotuServer {
              */
             this.leafs = {
                 handshake: [AuthLeaf],
-                message: [ChannelLeaf, MeLeaf]
+                message: [ChannelLeaf, CoreFilterLeaf]
             }
 
             /**

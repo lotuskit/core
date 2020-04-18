@@ -55,12 +55,20 @@ https://github.com/dwyl/hapi-socketio-redis-chat-example
 - @lotuskit/plugin: plugin api
 - @lotuskit/cli: CLI
 
+## TODO
+- Moderation
+- Security allowed client domains
+- System messages, when:
+    - User joined a channel
+    - User leaves a channel
+
 ## Extensions ideas
+- Reactions
 - Email notifications on mentions
-- Messages real-time translations
+- Messages real-time translations (Google Translate)
 - Commands (/me, /help, ...)
 - Online presence indicator
 - Typing indicator
 - Read receipts
-- Bots
+- ChatBots (3rd party)
 - Webhooks

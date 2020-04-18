@@ -3,6 +3,7 @@
     "host": "localhost",
     "port": 8080,
     "redis_url": "redis://localhost:6379",
+    "max_messages_length": 250,
     "webui": {
         "operators": [
             {
@@ -11,10 +12,5 @@
             }
         ]
     },
-    "plugins": {
-        "./plugins/helloworld": {},
-        "./plugins/hellotext": {
-            "text": " | HelloWorld"
-        }
-    }
+    "plugins": {}
 }

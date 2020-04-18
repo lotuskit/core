@@ -5,7 +5,7 @@ export default abstract class Validator {
 
     // Validate configuration
     validate(data: any) {
-        const ajv = new Ajv({ allErrors: true });
+        const ajv = new Ajv();
         return ajv.validate(this.schema, data) ? null : ajv.errorsText();
     }
 }

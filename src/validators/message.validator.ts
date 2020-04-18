@@ -1,4 +1,5 @@
 import Validator from "./validator";
+import { ConfigDefault } from "../lib/config-default";
 
 export class MessageValidator extends Validator {
 
@@ -9,8 +10,8 @@ export class MessageValidator extends Validator {
             'channel', 'message'
         ],
         properties: {
-            channel: { type: 'string' },
-            message: { type: 'string' }
+            channel: { type: 'string', pattern: ConfigDefault.CHANNEL_NAME_REGEX.toString().slice(1, -1) },
+            message: { type: 'string', minLength: 1 }
         }
     }
 

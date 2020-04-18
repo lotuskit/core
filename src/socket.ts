@@ -30,8 +30,11 @@ export class Socket {
             this.io.on('connection', (socket: socketio.Socket) => {
                 this.connexions_count++;
 
-                socket.on('handshake', (data: any) => this.onSocketHandshake(socket, data));
-                socket.on('message', (data: any) => this.onSocketMessage(socket, data));
+                socket.on(ConfigDefault.EVENTS.HANDSHAKE, (data: any) => this.onSocketHandshake(socket, data));
+                socket.on(ConfigDefault.EVENTS.MESSAGE, (data: any) => this.onSocketMessage(socket, data));
+                socket.on(ConfigDefault.EVENTS.HANDSHAKE, () => {
+                    socket.emit(ConfigDefault.EVENTS.HANDSHAKE, 'pong');
+                });
 
                 socket.on('disconnect', () => {
                     this.connexions_count--;
@@ -67,16 +70,19 @@ export class Socket {
             // If handshake approved...
             () => {
                 // Save session to Redis
-                this.redis.setex(`lotuskit:session:${socket.id}`,
-                ConfigDefault.SESSION_DURATION_IN_MIN,
-                session.export());
+                this.redis.setex(
+                    `lotuskit:session:${socket.id}`,
+                    ConfigDefault.SESSION_DURATION_IN_MIN,
+                    JSON.stringify(session.export())
+                );
 
                 // Load messages from all channels
+                const channel_names = Object.keys(session.channels);
                 let loaded_channels_count = 0;
-                const expected_channels_count = session.channels.length;
+                const expected_channels_count = channel_names.length;
                 const channels_messages: any = {};
 
-                for (const channel of session.channels) {
+                for (const channel of channel_names) {
                     // Fetch on redis
                     this.redis.lrange(`chat:channel:${channel}`, -ConfigDefault.MAX_MESSAGES_HISTORY_PER_CHANNEL, -1, function (error, data) {
                         channels_messages[channel] = data.map((m: string) => JSON.parse(m));
@@ -84,7 +90,7 @@ export class Socket {
 
                         // If all channels are fetched --> send handshake response
                         if (loaded_channels_count === expected_channels_count) {
-                            socket.emit('handshake', {
+                            socket.emit(ConfigDefault.EVENTS.HANDSHAKE, {
                                 result: true,
                                 data: session.handshake_response,
                                 channels: channels_messages
@@ -94,7 +100,7 @@ export class Socket {
                 }
 
                 // Subscribe to channels
-                for (const channel of session.channels) {
+                for (const channel of channel_names) {
                     socket.join(`channel:${channel}`);
                 }
             }
@@ -102,7 +108,7 @@ export class Socket {
             // If handshake rejected...
             (error: any) => {
                 logger.warn(`Handshake rejected for client with payload:`, payload);
-                socket.emit('handshake', {
+                socket.emit(ConfigDefault.EVENTS.HANDSHAKE, {
                     result: false,
                     error
                 });
@@ -120,12 +126,14 @@ export class Socket {
         // Validate message format
         const msgErrors = new MessageValidator().validate(payload);
         if (msgErrors) {
-            socket.emit('message', {
+            socket.emit(ConfigDefault.EVENTS.MESSAGE, {
                 result: false,
-                error: {code: 'INVALID_MESSAGE_FORMAT', details: msgErrors}
+                error: 'INVALID_MESSAGE_FORMAT',
+                message: msgErrors
             });
             return;
         }
+        
 
         let timestamp = new Date().getTime();
 
@@ -144,7 +152,7 @@ export class Socket {
 
                 // Session not found (expired) --> Request new Auth
                 if (!session_data) {
-                    socket.emit('message', {
+                    socket.emit(ConfigDefault.EVENTS.MESSAGE, {
                         result: false,
                         error: {code: 'HANDSHAKE_NEEDED'}
                     });
@@ -152,7 +160,7 @@ export class Socket {
                 }
 
                 // Import session
-                const session: Session = Session.import(session_data);
+                const session: Session = Session.import(JSON.parse(session_data));
 
                 // Instanciate message
                 const message = new Message(session, payload);
@@ -164,7 +172,7 @@ export class Socket {
                 .then(
                     // If message approved...
                     () => {
-                        socket.emit('message', {
+                        socket.emit(ConfigDefault.EVENTS.MESSAGE, {
                             result: true
                         });
 
@@ -173,7 +181,7 @@ export class Socket {
 
                         // Save it into Redis & broadcast
                         for (const channel of message.broadcasted_channels) {
-                            this.io.to(`channel:${channel}`).emit('channels', exportedMsg);
+                            this.io.to(`channel:${channel}`).emit(ConfigDefault.EVENTS.CHANNELS_BROADCAST, exportedMsg);
 
                             // Append at the end of Redis list
                             const redis_key = `chat:channel:${channel}`;
@@ -186,12 +194,22 @@ export class Socket {
                 ).catch(
                     // If message rejected...
                     (error: any) => {
-                        socket.emit('message', {
+                        socket.emit(ConfigDefault.EVENTS.MESSAGE, {
                             result: false,
                             error
                         });
                     }
-                );
+                ).finally(
+                    () => {
+                        // If session updated, update it into Redis
+                        if (message.sender.is_updated) {
+                            this.redis.set(
+                                `lotuskit:session:${socket.id}`,
+                                JSON.stringify(message.sender.export())
+                            );
+                        }
+                    }
+                )
             }
         );
     }
